@@ -61,8 +61,8 @@ class AppCubit extends Cubit<AppState> {
     required String time,
     required String date,
   }) async {
-    await database.transaction((txn) async {
-      await txn
+    await database.transaction((txn) {
+      return txn
           .rawInsert(
               'INSERT INTO tasks(title, date, time, status) VALUES("$title", "$date", "$time", "new")')
           .then((value) {
@@ -72,7 +72,6 @@ class AppCubit extends Cubit<AppState> {
       }).catchError((error) {
         print('Error When Inserting New Record ${error.toString()}');
       });
-      return null;
     });
   }
 
